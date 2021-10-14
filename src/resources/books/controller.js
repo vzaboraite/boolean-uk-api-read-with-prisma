@@ -3,8 +3,8 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getAll = async (req, res) => {
-  const result = await prisma.book.findMany();
   try {
+    const result = await prisma.book.findMany();
     res.json({ data: result });
   } catch (error) {
     console.error({ error: error.message });
