@@ -11,9 +11,6 @@ const app = express();
 
 /* Setup Middleware */
 
-app.use("/books", booksRouter);
-app.use("/pets", petsRouter);
-
 app.disable("x-powered-by");
 
 app.use(cors());
@@ -22,6 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 /* Setup Routes */
+
+app.use("/books", booksRouter);
+app.use("/pets", petsRouter);
 
 app.get("*", (req, res) => {
   res.json({ ok: true });
