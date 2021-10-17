@@ -59,12 +59,18 @@ const getNonFictionBooks = async (req, res) => {
   const { topic } = req.query;
 
   try {
-    const result = await prisma.book.findMany({
+    let queryOptions = {
       where: {
         type: "non-fiction",
-        topic,
       },
-    });
+    };
+
+    if (topic) {
+      queryOptions.where.topic = {
+        in: typeof topic === "string" ? [topic] : topic,
+      };
+    }
+    const result = await prisma.book.findMany(queryOptions);
 
     res.json({ data: result });
   } catch (error) {
