@@ -12,6 +12,25 @@ const getAll = async (req, res) => {
   }
 };
 
+const getOneById = async (req, res) => {
+  const targetId = req.params.id;
+
+  try {
+    const result = await prisma.pet.findUnique({
+      where: {
+        id: parseInt(targetId),
+      },
+    });
+
+    res.json({ data: result });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAll,
+  getOneById,
 };
