@@ -68,4 +68,45 @@ const getNonFictionBooks = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOneById, getFictionBooks, getNonFictionBooks };
+const getAuthorBooks = async (req, res) => {
+  const { name } = req.params;
+  const { order } = req.query;
+
+  const transformedName = name
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  try {
+    let queryOptions = {
+      where: {
+        author: transformedName,
+      },
+    };
+
+    if (order === "recent") {
+      queryOptions = {
+        ...queryOptions,
+        orderBy: {
+          publicationDate: "desc",
+        },
+      };
+    }
+
+    const result = await prisma.book.findMany(queryOptions);
+
+    res.json({ data: result });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  getAll,
+  getOneById,
+  getFictionBooks,
+  getNonFictionBooks,
+  getAuthorBooks,
+};
