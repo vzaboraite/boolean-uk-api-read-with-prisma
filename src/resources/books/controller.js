@@ -1,5 +1,6 @@
 const prisma = require("../../utils/database");
 
+/* READ Controllers */
 const getAll = async (req, res) => {
   try {
     const result = await prisma.book.findMany();
@@ -115,10 +116,29 @@ const getAuthorBooks = async (req, res) => {
   }
 };
 
+/* CREATE Controller */
+
+const createOne = async (req, res) => {
+  try {
+    const result = await prisma.book.create({
+      data: {
+        ...req.body,
+      },
+    });
+
+    res.json({ data: result });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAll,
   getOneById,
   getFictionBooks,
   getNonFictionBooks,
   getAuthorBooks,
+  createOne,
 };
