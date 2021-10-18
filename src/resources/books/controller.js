@@ -161,6 +161,28 @@ const updateOneById = async (req, res) => {
   }
 };
 
+/* DELETE Controller */
+
+const deleteOneById = async (req, res) => {
+  const targetId = req.params.id;
+
+  try {
+    const result = await prisma.book.delete({
+      where: {
+        id: parseInt(targetId),
+      },
+    });
+
+    res.json({
+      message: `The book with id:${targetId} has been successfully!`,
+    });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAll,
   getOneById,
@@ -169,4 +191,5 @@ module.exports = {
   getAuthorBooks,
   createOne,
   updateOneById,
+  deleteOneById,
 };
