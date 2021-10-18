@@ -3,8 +3,14 @@ const prisma = require("../../utils/database");
 /* READ Controllers */
 
 const getAll = async (req, res) => {
+  const { microchip } = req.query;
   try {
-    const result = await prisma.pet.findMany();
+    let queryOptions = {};
+
+    if (microchip) {
+      queryOptions.where = { microchip: microchip === "true" };
+    }
+    const result = await prisma.pet.findMany(queryOptions);
 
     res.json({ data: result });
   } catch (error) {
