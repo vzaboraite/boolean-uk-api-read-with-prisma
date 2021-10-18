@@ -51,12 +51,22 @@ const getPetTypes = async (req, res) => {
 const getPetsByType = async (req, res) => {
   const targetType = req.params.type;
 
+  const targetBreed = req.query.breed;
+
   try {
-    const result = await prisma.pet.findMany({
+    let queryOptions = {
       where: {
         type: targetType,
       },
-    });
+    };
+
+    if (targetBreed) {
+      queryOptions.where = {
+        breed: targetBreed,
+      };
+    }
+
+    const result = await prisma.pet.findMany(queryOptions);
 
     res.json({ data: result });
   } catch (error) {
