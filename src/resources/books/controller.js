@@ -119,10 +119,16 @@ const getAuthorBooks = async (req, res) => {
 /* CREATE Controller */
 
 const createOne = async (req, res) => {
+  const { title, type, author, topic, publicationDate } = req.body;
+
   try {
     const result = await prisma.book.create({
       data: {
-        ...req.body,
+        title,
+        type,
+        author,
+        topic,
+        publicationDate,
       },
     });
 
