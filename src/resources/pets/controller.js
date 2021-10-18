@@ -57,7 +57,7 @@ const getPetTypes = async (req, res) => {
 const getPetsByType = async (req, res) => {
   const targetType = req.params.type;
 
-  const { breed, microchip } = req.query;
+  const { breed, microchip, perPage } = req.query;
 
   try {
     let queryOptions = {
@@ -74,6 +74,10 @@ const getPetsByType = async (req, res) => {
 
     if (microchip) {
       queryOptions.where.microchip = microchip === "true";
+    }
+
+    if (perPage) {
+      queryOptions.take = parseInt(perPage);
     }
 
     const result = await prisma.pet.findMany(queryOptions);
