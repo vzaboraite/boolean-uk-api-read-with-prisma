@@ -48,6 +48,24 @@ const getPetTypes = async (req, res) => {
   }
 };
 
+const getPetsByType = async (req, res) => {
+  const targetType = req.params.type;
+
+  try {
+    const result = await prisma.pet.findMany({
+      where: {
+        type: targetType,
+      },
+    });
+
+    res.json({ data: result });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
 /* CREATE Controller */
 
 const createOne = async (req, res) => {
@@ -121,6 +139,7 @@ module.exports = {
   getAll,
   getOneById,
   getPetTypes,
+  getPetsByType,
   createOne,
   updateOneById,
   deleteOneById,

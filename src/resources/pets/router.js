@@ -6,6 +6,7 @@ const {
   createOne,
   updateOneById,
   deleteOneById,
+  getPetsByType,
 } = require("./controller");
 
 const router = express.Router();
@@ -13,6 +14,8 @@ const router = express.Router();
 router.get("/", getAll);
 
 router.get("/types", getPetTypes);
+
+router.get("/types/:type", getPetsByType);
 
 router.get("/:id", getOneById);
 
