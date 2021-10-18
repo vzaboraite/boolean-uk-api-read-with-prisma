@@ -95,10 +95,33 @@ const updateOneById = async (req, res) => {
   }
 };
 
+/* DELETE Controllers */
+
+const deleteOneById = async (req, res) => {
+  const targetId = req.params.id;
+
+  try {
+    const result = await prisma.pet.delete({
+      where: {
+        id: parseInt(targetId),
+      },
+    });
+
+    res.json({
+      message: `Pet with id:${targetId} was removed from the list successfully!`,
+    });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAll,
   getOneById,
   getPetTypes,
   createOne,
   updateOneById,
+  deleteOneById,
 };
