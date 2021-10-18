@@ -1,5 +1,7 @@
 const prisma = require("../../utils/database");
 
+/* READ Controllers */
+
 const getAll = async (req, res) => {
   try {
     const result = await prisma.pet.findMany();
@@ -46,8 +48,33 @@ const getPetTypes = async (req, res) => {
   }
 };
 
+/* CREATE Controller */
+
+const createOne = async (req, res) => {
+  const { name, age, type, breed, microchip } = req.body;
+
+  try {
+    const result = await prisma.pet.create({
+      data: {
+        name,
+        age,
+        type,
+        breed,
+        microchip,
+      },
+    });
+
+    res.json({ data: result });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAll,
   getOneById,
   getPetTypes,
+  createOne,
 };
