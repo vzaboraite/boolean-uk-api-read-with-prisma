@@ -6,6 +6,7 @@ const {
   getNonFictionBooks,
   getAuthorBooks,
   createOne,
+  updateOneById,
 } = require("./controller");
 
 const router = express.Router();
@@ -21,5 +22,7 @@ router.get("/author/:name", getAuthorBooks);
 router.get("/:id", getOneById);
 
 router.post("/", createOne);
+
+router.patch("/:id", updateOneById);
 
 module.exports = router;

@@ -134,6 +134,27 @@ const createOne = async (req, res) => {
   }
 };
 
+/* UPDATE Controllers */
+
+const updateOneById = async (req, res) => {
+  const targetId = req.params.id;
+
+  try {
+    const result = await prisma.book.update({
+      where: { id: parseInt(targetId) },
+      data: {
+        ...req.body,
+      },
+    });
+
+    res.json({ data: result });
+  } catch (error) {
+    console.error({ error: error.message });
+
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAll,
   getOneById,
@@ -141,4 +162,5 @@ module.exports = {
   getNonFictionBooks,
   getAuthorBooks,
   createOne,
+  updateOneById,
 };
