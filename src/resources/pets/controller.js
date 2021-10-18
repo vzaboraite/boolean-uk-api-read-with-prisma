@@ -51,10 +51,7 @@ const getPetTypes = async (req, res) => {
 const getPetsByType = async (req, res) => {
   const targetType = req.params.type;
 
-  console.log({ params: req.params, queries: req.query });
-
   const { breed, microchip } = req.query;
-  console.log(typeof microchip);
 
   try {
     let queryOptions = {
@@ -70,14 +67,8 @@ const getPetsByType = async (req, res) => {
     }
 
     if (microchip) {
-      queryOptions.where.microchip =
-        // microchip got from req.query is returned as a string, so it needs to be converted to boolean:
-        // If in /pets/types/a-pet-type?microchip=true, we update `queryOptions` with `microchip: true`.
-        // If in /pets/types/a-pet-type?microchip=false, we update `queryOptions` with `microchip: false`.
-        microchip === "true";
+      queryOptions.where.microchip = microchip === "true";
     }
-
-    console.log({ queryOptions });
 
     const result = await prisma.pet.findMany(queryOptions);
 
