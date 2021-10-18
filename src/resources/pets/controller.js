@@ -62,7 +62,9 @@ const getPetsByType = async (req, res) => {
 
     if (targetBreed) {
       queryOptions.where = {
-        breed: targetBreed,
+        breed: {
+          in: typeof targetBreed === "string" ? [targetBreed] : targetBreed,
+        },
       };
     }
 
